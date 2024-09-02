@@ -6,7 +6,11 @@ const productsApiSlice = apiSlice.injectEndpoints({
       query: category => `/api/products/categories/${category}`,
       providesTags: ["Product"],
     }),
+    getProduct: builder.query({
+      query: id => `/api/products/${id}`,
+      providesTags: ["Product"],
+    }),
   }),
 });
 
-export const { useGetProductsQuery } = productsApiSlice;
+export const { useGetProductsQuery, useGetProductQuery } = productsApiSlice;

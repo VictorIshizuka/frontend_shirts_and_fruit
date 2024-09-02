@@ -1,9 +1,10 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
 
-const ProductLIsting = () => {
+const ProductListing = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
 
   const { data: products, isLoading, error } = useGetProductsQuery(slug);
 
@@ -30,11 +31,16 @@ const ProductLIsting = () => {
             <p>{product.name}</p>
           </Link>
           <p>Price: ${product.price.toFixed(2)}</p>
-          <button className="btn btn-primary">View product details</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate(`/product/${product._id}`)}
+          >
+            View product details
+          </button>
         </div>
       ))}
     </div>
   );
 };
 
-export default ProductLIsting;
+export default ProductListing;

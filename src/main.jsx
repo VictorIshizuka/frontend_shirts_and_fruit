@@ -10,7 +10,8 @@ import App from "./App.jsx";
 import { Page } from "./common/screens/Page/index.jsx";
 
 import "./index.css";
-import ProductLIsting from "./common/screens/ProductListing/index.jsx";
+import ProductListing from "./common/screens/ProductListing/index.jsx";
+import ProductDetails from "./common/screens/ProductDetails/index.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -19,7 +20,8 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index path="/:slug?" element={<Page />} />
-            <Route index path="/category/:slug?" element={<ProductLIsting />} />
+            <Route index path="/category/:slug?" element={<ProductListing />} />
+            <Route index path="/product/:id" element={<ProductDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
