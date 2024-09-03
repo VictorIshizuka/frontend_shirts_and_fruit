@@ -18,7 +18,9 @@ const ProductListing = () => {
 
   return (
     <div className="row">
-      <h1 className="mb-5">{slug} Products</h1>
+      <h1 className="mb-5">
+        {slug.charAt(0).toLocaleLowerCase() + slug.slice(1)} Products
+      </h1>
 
       {products?.map((product, index) => (
         <div className="col-4 mb-3" key={index}>

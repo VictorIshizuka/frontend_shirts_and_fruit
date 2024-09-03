@@ -1,8 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGetPagesQuery } from "../../slices/pagesApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "../../slices/usersApiSlice";
+import { logout } from "../../slices/authSlice";
+import { toast } from "react-toastify";
 
 const Header = () => {
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { userInfo } = useSelector(state => state.auth);
+
   const { data: pages, error } = useGetPagesQuery();
+  const [logoutApiCall] = useLogoutMutation();
+
+  async function handleLogout() {
+    const res = await logoutApiCall();
+    dispatch(logout());
+    navigate("/");
+    console.log(res);
+    toast.success(res.data.message);
+  }
 
   return (
     <header>
@@ -40,14 +58,25 @@ const Header = () => {
           </ul>
           <ul className="navbar-nav justify-content-end w-100">
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Log in
-              </a>
+              {userInfo === null && pathname !== "/login" && (
+                <Link className="nav-link" to="/login">
+                  Log in
+                </Link>
+              )}
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Register
-              </a>
+              {userInfo === null && pathname !== "/register" && (
+                <Link className="nav-link" to="/register">
+                  Register
+                </Link>
+              )}
+            </li>
+            <li className="nav-item">
+              {userInfo !== null && (
+                <Link className="btn btn-danger" onClick={handleLogout}>
+                  Log out
+                </Link>
+              )}
             </li>
           </ul>
         </div>
