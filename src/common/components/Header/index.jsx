@@ -1,9 +1,12 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useGetPagesQuery } from "../../slices/pagesApiSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useLogoutMutation } from "../../slices/usersApiSlice";
-import { logout } from "../../slices/authSlice";
 import { toast } from "react-toastify";
+
+import { logout } from "../../slices/authSlice";
+import { useGetPagesQuery } from "../../slices/pagesApiSlice";
+import { useLogoutMutation } from "../../slices/usersApiSlice";
+
+import HeaderAdmin from "../HeaderAdmin";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -24,6 +27,7 @@ const Header = () => {
 
   return (
     <header>
+      {userInfo.isAdmin && <HeaderAdmin />}
       <nav className="navbar navbar-expand-sm navbar-light bg-light px-3">
         <Link className="navbar-brand" to="/">
           Shirts & Fruit

@@ -16,6 +16,12 @@ import Login from "./common/screens/Login/index.jsx";
 
 import "./index.css";
 
+import AdminRouter from "./common/components/AdminRouter/index.jsx";
+import ListPages from "./common/screens/Admin/List/pages.jsx";
+import ListCategories from "./common/screens/Admin/List/categories.jsx";
+import ListUsers from "./common/screens/Admin/List/users.jsx";
+import ListProducts from "./common/screens/Admin/List/products.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
@@ -23,10 +29,22 @@ createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index path="/:slug?" element={<Page />} />
-            <Route index path="/category/:slug?" element={<ProductListing />} />
             <Route index path="/product/:id" element={<ProductDetails />} />
+            <Route index path="/category/:slug?" element={<ProductListing />} />
+
             <Route index path="/login" element={<Login />} />
             <Route index path="/register" element={<Register />} />
+
+            <Route path="" element={<AdminRouter />}>
+              <Route index path="/admin/pages?" element={<ListPages />} />
+              <Route
+                index
+                path="/admin/categories?"
+                element={<ListCategories />}
+              />
+              <Route index path="/admin/users?" element={<ListUsers />} />
+              <Route index path="/admin/products?" element={<ListProducts />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -10,7 +10,16 @@ const pagesApiSlice = apiSlice.injectEndpoints({
       query: slug => `/api/pages/${slug}`,
       providesTags: ["Page"],
     }),
+    reorderPages: builder.mutation({
+      query: pages => ({
+        url: "/api/pages/reorder",
+        method: "POST",
+        body: pages,
+      }),
+      invalidatesTags: ["Page"],
+    }),
   }),
 });
 
-export const { useGetPagesQuery, useGetPageQuery } = pagesApiSlice;
+export const { useGetPagesQuery, useGetPageQuery, useReorderPagesMutation } =
+  pagesApiSlice;
