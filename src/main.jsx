@@ -21,6 +21,8 @@ import ListPages from "./common/screens/Admin/List/pages.jsx";
 import ListCategories from "./common/screens/Admin/List/categories.jsx";
 import ListUsers from "./common/screens/Admin/List/users.jsx";
 import ListProducts from "./common/screens/Admin/List/products.jsx";
+import FormPage from "./common/screens/Admin/Form/page.jsx";
+import FormProduct from "./common/screens/Admin/Form/products.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -42,8 +44,42 @@ createRoot(document.getElementById("root")).render(
                 path="/admin/categories?"
                 element={<ListCategories />}
               />
-              <Route index path="/admin/users?" element={<ListUsers />} />
-              <Route index path="/admin/products?" element={<ListProducts />} />
+              <Route index path="/admin/users" element={<ListUsers />} />
+              <Route index path="/admin/products" element={<ListProducts />} />
+
+              <Route
+                index
+                path="/admin/products/form/:id"
+                element={<FormProduct />}
+              />
+              <Route
+                index
+                path="/admin/categories/form:/id"
+                element={<ListProducts />}
+              />
+              <Route
+                index
+                path="/admin/pages/form/:slug"
+                element={<FormPage />}
+              />
+
+              <Route index path="/admin/users/:id" element={<ListProducts />} />
+              <Route
+                index
+                path="/admin/categories/:id"
+                element={<ListProducts />}
+              />
+              <Route
+                index
+                path="/admin/products/form"
+                element={<FormProduct />}
+              />
+              <Route
+                index
+                path="/admin/categories/form"
+                element={<ListProducts />}
+              />
+              <Route index path="/admin/pages/form" element={<FormPage />} />
             </Route>
           </Route>
         </Routes>

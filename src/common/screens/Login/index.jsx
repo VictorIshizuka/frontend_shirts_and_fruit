@@ -43,7 +43,6 @@ const Login = () => {
     if (Object.keys(errors).length === 0) {
       try {
         const userData = await login(formData).unwrap();
-        console.log(userData);
         dispatch(setCredentials({ ...userData }));
         navigate("/");
       } catch (error) {

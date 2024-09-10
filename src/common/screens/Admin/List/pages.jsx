@@ -4,14 +4,20 @@ import { toast } from "react-toastify";
 import {
   useGetPagesQuery,
   useReorderPagesMutation,
+  useDeletePageMutation,
 } from "../../../slices/pagesApiSlice";
 
 import Loader from "../../../components/Loader";
+import { useNavigate } from "react-router-dom";
 
 const ListPages = () => {
+  const navigate = useNavigate();
+
   const { data, isLoading, error } = useGetPagesQuery();
   const [reorderPages] = useReorderPagesMutation();
-  const [pages, setPages] = useState([]);
+  const [deletePage] = useDeletePageMutation();
+
+  const [pages, setPages] = useState(data);
 
   useEffect(() => {
     if (data) {
@@ -43,6 +49,19 @@ const ListPages = () => {
       toast.error(error.data.message);
     }
   }
+  async function onDeletePage(id) {
+    //validar por um modal para deletar - adcionar -
+    try {
+      if (id) {
+        const res = await deletePage(id).unwrap();
+        toast.success(res.message);
+        return;
+      }
+      toast.success("Internal error, please contact an administrator");
+    } catch (error) {
+      toast.error(error.data.message);
+    }
+  }
 
   if (error) {
     return <p>{error.data.message}</p>;
@@ -50,7 +69,15 @@ const ListPages = () => {
   const header = ["ID", "Name", "Actions"];
   return (
     <>
-      <h3>Pages</h3>
+      <div className="d-flex mb-3">
+        <h3 className="me-3">Pages</h3>
+        <button
+          className="btn btn-success"
+          onClick={() => navigate("/admin/pages/form")}
+        >
+          Add page
+        </button>
+      </div>
       {isLoading ? (
         <Loader />
       ) : (
@@ -77,8 +104,22 @@ const ListPages = () => {
                 <td>{item._id}</td>
                 <td>{item.username ?? item.name}</td>
                 <td className="d-flex justify-content-center">
-                  <button className="btn btn-warning me-2">Edit</button>
-                  <button className="btn btn-danger">Delete</button>
+                  <button
+                    className="btn btn-warning me-2"
+                    onClick={() => {
+                      navigate(`/admin/pages/form/${item.slug}`);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => {
+                      onDeletePage(item._id);
+                    }}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
