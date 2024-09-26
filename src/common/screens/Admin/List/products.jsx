@@ -15,16 +15,17 @@ const ListProducts = () => {
   //  const { data: categoryItem } = useGetCategoriesQuery();
 
   async function onDeleteProduct(id) {
-    //validar por um modal para deletar - adcionar -
-    try {
-      if (id) {
-        const res = await deleteProduct(id).unwrap();
-        toast.success(res.message);
-        return;
+    if (window.confirm("Are you sure?")) {
+      try {
+        if (id) {
+          const res = await deleteProduct(id);
+          toast.success(res.message);
+          return;
+        }
+        toast.success("Internal error, please contact an administrator");
+      } catch (error) {
+        toast.error(error.data.message);
       }
-      toast.success("Internal error, please contact an administrator");
-    } catch (error) {
-      toast.error(error.data.message);
     }
   }
 

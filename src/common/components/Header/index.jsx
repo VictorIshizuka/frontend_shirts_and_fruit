@@ -21,7 +21,7 @@ const Header = () => {
     const res = await logoutApiCall();
     dispatch(logout());
     navigate("/");
-    console.log(res);
+    //  console.log(res);
     toast.success(res.data.message);
   }
 

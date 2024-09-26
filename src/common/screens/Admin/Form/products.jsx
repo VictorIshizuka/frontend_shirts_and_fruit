@@ -10,6 +10,7 @@ import {
   useUpdateProductMutation,
 } from "../../../slices/productsApiSlice";
 import { useGetCategoriesQuery } from "../../../slices/categoriesApiSlice";
+import MultipleImageLoad from "../../../components/MulltipleImageUpload";
 
 const FormProduct = () => {
   const { id } = useParams();
@@ -21,26 +22,30 @@ const FormProduct = () => {
   const { data: categories } = useGetCategoriesQuery();
   const { data: product, isLoading, error } = useGetProductQuery(id);
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    price: "",
-    description: "",
-    image: null,
+  const [formData, setFormData] = useState(() => {
+    if (product) {
+      return {
+        id: "",
+        name: "",
+        category: "",
+        price: "",
+        description: "",
+        image: null,
+        productImage: "",
+      };
+    } else {
+      return {
+        name: "",
+        category: "",
+        price: "",
+        description: "",
+        image: null,
+      };
+    }
   });
 
   const [preview, setPreview] = useState(null);
   const [selectFile, setSelectFile] = useState(null);
-
-  useEffect(() => {
-    if (!selectFile) {
-      setPreview(null);
-      return;
-    }
-    const objectUrl = URL.createObjectURL(selectFile);
-    setPreview(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectFile]);
 
   function handleChange(e) {
     const { name, value, type } = e.target;
@@ -102,7 +107,12 @@ const FormProduct = () => {
       formDataToSend.append("price", formData.price);
       formDataToSend.append("image", formData.image);
       try {
-        if (!id) {
+        if (
+          !id
+          //&&
+          // Object.keys(formData).length &&
+          // Object.keys(errors).length === 0
+        ) {
           const res = await addProduct(formDataToSend).unwrap();
           navigate("/admin/products");
           toast.success(res.message);
@@ -111,12 +121,9 @@ const FormProduct = () => {
           Object.keys(formData).length &&
           Object.keys(errors).length === 0
         ) {
-          const res = await updateProduct({
-            id: product._id,
-            body: {
-              ...formData,
-            },
-          }).unwrap();
+          formDataToSend.append("id", id);
+          formDataToSend.append("productImage", formData.productImage);
+          const res = await updateProduct(formDataToSend).unwrap();
           toast.success(res.message);
           navigate("/admin/products");
         }
@@ -125,15 +132,27 @@ const FormProduct = () => {
       }
     }
   }
-  console.log(product?.image);
+
+  useEffect(() => {
+    if (!selectFile) {
+      setPreview(null);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(selectFile);
+    setPreview(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectFile]);
+
   useEffect(() => {
     if (product) {
       setFormData({
+        id: product.id,
         name: product.name ?? "",
         category: product.category ?? "",
         price: product.price ?? "",
         description: product.description ?? "",
-        image: product.image ?? "",
+        image: null,
+        productImage: product.image ?? "",
       });
     }
   }, [product]);
@@ -220,6 +239,7 @@ const FormProduct = () => {
             />
             {(selectFile || product?.image) && (
               <div className="mt-3">
+                {product?.image && <label>Current Image: </label>}
                 <img
                   src={preview ?? `/images/${product?.image}`}
                   alt="preview"
@@ -227,6 +247,7 @@ const FormProduct = () => {
                     width: "200px",
                     height: "200px",
                     marginTop: "10px",
+                    marginLeft: "5px",
                   }}
                 />
               </div>
@@ -253,6 +274,7 @@ const FormProduct = () => {
               Register
             </button>
             <button
+              type="button"
               className="btn btn-outline-danger w-25"
               onClick={() => {
                 navigate(-1);
@@ -262,6 +284,9 @@ const FormProduct = () => {
             </button>
           </div>
         </form>
+        <div className="col-6 mx-auto">
+          {id && <MultipleImageLoad id={product._id} />}
+        </div>
       </div>
     </>
   );

@@ -29,7 +29,6 @@ const ListCategories = () => {
           <tbody>
             {categories?.map((item, index) => (
               <tr key={index}>
-                {console.log(item)}
                 <td>{item._id}</td>
                 <td>{item.name}</td>
                 <td className="d-flex justify-content-center">

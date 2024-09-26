@@ -19,17 +19,40 @@ const productsApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     updateProduct: builder.mutation({
-      query: params => ({
-        url: `/api/products/${params.id}`,
+      query: product => ({
+        url: `/api/products/${product.get("id")}`,
         method: "PUT",
-        body: params.body,
+        body: product,
       }),
       invalidatesTags: ["Product"],
     }),
     deleteProduct: builder.mutation({
-      query: id => ({ url: `/api/products/${id}`, method: "DELETE" }),
+      query: id => ({ url: `/api/products/${id}`, method: "POST" }),
+      invalidatesTags: ["Product"],
     }),
-    invalidatesTags: ["Product"],
+    uploadMultipleImages: builder.mutation({
+      query: formaData => {
+        console.log("api ", formaData.get("images"));
+        return {
+          url: `/api/products/multiupload/${formaData.get("id")}`,
+          method: "POST",
+          body: formaData,
+        };
+      },
+      invalidatesTags: ["Product"],
+    }),
+    getProductImages: builder.query({
+      query: id => `/api/products/images/${id}`,
+      providesTags: ["Product"],
+    }),
+    deleteProductImage: builder.mutation({
+      query: data => ({
+        url: `/api/products/deleteimage`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
@@ -39,4 +62,7 @@ export const {
   useDeleteProductMutation,
   useAddProductMutation,
   useUpdateProductMutation,
+  useUploadMultipleImagesMutation,
+  useGetProductImagesQuery,
+  useDeleteProductImageMutation,
 } = productsApiSlice;
