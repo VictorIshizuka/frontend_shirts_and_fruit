@@ -19,7 +19,7 @@ function App() {
               <Categories />
             </div>
           )}
-          <div className="col">
+          <div className="col-8">
             <Outlet />
           </div>
         </div>

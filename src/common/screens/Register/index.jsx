@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useRegisterMutation } from "../../slices/usersApiSlice";
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { useInfo } = useSelector(state => state.auth);
 
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -58,6 +60,12 @@ const Register = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (useInfo) {
+      navigate("/");
+    }
+  }, [useInfo, navigate]);
 
   return (
     <div>

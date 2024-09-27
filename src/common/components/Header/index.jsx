@@ -21,13 +21,12 @@ const Header = () => {
     const res = await logoutApiCall();
     dispatch(logout());
     navigate("/");
-    //  console.log(res);
     toast.success(res.data.message);
   }
 
   return (
     <header>
-      {userInfo.isAdmin && <HeaderAdmin />}
+      {userInfo?.isAdmin && <HeaderAdmin />}
       <nav className="navbar navbar-expand-sm navbar-light bg-light px-3">
         <Link className="navbar-brand" to="/">
           Shirts & Fruit

@@ -52,6 +52,7 @@ createRoot(document.getElementById("root")).render(
                 path="/admin/products/form/:id"
                 element={<FormProduct />}
               />
+
               <Route
                 index
                 path="/admin/categories/form:/id"
@@ -63,7 +64,6 @@ createRoot(document.getElementById("root")).render(
                 element={<FormPage />}
               />
 
-              <Route index path="/admin/users/:id" element={<ListProducts />} />
               <Route
                 index
                 path="/admin/categories/:id"

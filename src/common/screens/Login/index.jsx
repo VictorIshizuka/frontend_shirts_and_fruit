@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,6 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const [login] = useLoginMutation();
+  const { useInfo } = useSelector(state => state.auth);
 
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -50,6 +51,12 @@ const Login = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (useInfo) {
+      navigate("/");
+    }
+  }, [useInfo, navigate]);
 
   return (
     <div>
