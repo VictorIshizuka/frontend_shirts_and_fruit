@@ -32,7 +32,6 @@ const productsApiSlice = apiSlice.injectEndpoints({
     }),
     uploadMultipleImages: builder.mutation({
       query: formaData => {
-        console.log("api ", formaData.get("images"));
         return {
           url: `/api/products/multiupload/${formaData.get("id")}`,
           method: "POST",

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useLoginMutation } from "../../slices/usersApiSlice";
@@ -10,6 +10,9 @@ import { setCredentials } from "../../slices/authSlice";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+  const inputRef = useRef(null);
 
   const [login] = useLoginMutation();
   const { useInfo } = useSelector(state => state.auth);
@@ -45,7 +48,7 @@ const Login = () => {
       try {
         const userData = await login(formData).unwrap();
         dispatch(setCredentials({ ...userData }));
-        navigate("/");
+        navigate(redirectTo);
       } catch (error) {
         toast.error(error.data.message);
       }
@@ -53,10 +56,14 @@ const Login = () => {
   }
 
   useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  useEffect(() => {
     if (useInfo) {
-      navigate("/");
+      navigate(redirectTo);
     }
-  }, [useInfo, navigate]);
+  }, [useInfo, redirectTo, navigate]);
 
   return (
     <div>
@@ -67,6 +74,7 @@ const Login = () => {
             E-mail
           </label>
           <input
+            ref={inputRef}
             type="email"
             name="email"
             className="form-control"

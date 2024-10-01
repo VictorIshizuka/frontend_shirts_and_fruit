@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 const Register = () => {
   const navigate = useNavigate();
+  const inputRef = useRef(null);
   const { useInfo } = useSelector(state => state.auth);
 
   const [errors, setErrors] = useState({});
@@ -62,6 +63,10 @@ const Register = () => {
   }
 
   useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  useEffect(() => {
     if (useInfo) {
       navigate("/");
     }
@@ -76,6 +81,7 @@ const Register = () => {
             Name
           </label>
           <input
+            ref={inputRef}
             name="username"
             className="form-control"
             id="username"

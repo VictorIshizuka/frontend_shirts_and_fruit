@@ -23,6 +23,7 @@ import ListUsers from "./common/screens/Admin/List/users.jsx";
 import ListProducts from "./common/screens/Admin/List/products.jsx";
 import FormPage from "./common/screens/Admin/Form/page.jsx";
 import FormProduct from "./common/screens/Admin/Form/products.jsx";
+import Cart from "./common/screens/Cart/index.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -36,6 +37,7 @@ createRoot(document.getElementById("root")).render(
 
             <Route index path="/login" element={<Login />} />
             <Route index path="/register" element={<Register />} />
+            <Route index path="/cart" element={<Cart />} />
 
             <Route path="" element={<AdminRouter />}>
               <Route index path="/admin/pages?" element={<ListPages />} />

@@ -5,6 +5,7 @@ import Footer from "./common/components/Footer";
 import Header from "./common/components/Header";
 import Categories from "./common/components/Categories";
 import "react-toastify/dist/ReactToastify.css";
+import CartProducts from "./common/components/CartProducts";
 
 function App() {
   const { pathname } = useLocation();
@@ -17,9 +18,10 @@ function App() {
           {!pathname.includes("admin") && (
             <div className="col-4">
               <Categories />
+              <CartProducts />
             </div>
           )}
-          <div className="col-8">
+          <div className="col">
             <Outlet />
           </div>
         </div>
