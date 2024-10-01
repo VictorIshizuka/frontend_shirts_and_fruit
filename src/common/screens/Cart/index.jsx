@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addOne, clearCart, deleteItem, remove } from "../../slices/cartSlice";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAddOrderMutation } from "../../slices/ordersApiSlice";
 
 const Cart = () => {
+  const [addOrder] = useAddOrderMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { cartItems } = useSelector(state => state.cart);
+  const { userInfo } = useSelector(state => state.auth);
   const grandTotal = cartItems.reduce(
     (total, item) => total + item.quantity * item.price,
     0
   );
-  const dispatch = useDispatch();
-  const { userInfo } = useSelector(state => state.auth);
 
   function handleAdd(id) {
     dispatch(addOne(id));
@@ -25,6 +28,23 @@ const Cart = () => {
   function handleRemoveItem(id) {
     dispatch(deleteItem(id));
     toast.success("Item deleted from cart");
+  }
+
+  async function handleCheckout() {
+    try {
+      console.log(cartItems);
+      await addOrder({
+        items: cartItems,
+        user: userInfo._id,
+        grandTotal,
+      }).unwrap();
+      dispatch(clearCart());
+      navigate("/order-placed");
+      toast.success("Order created successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.data.message);
+    }
   }
 
   function handleClearCart() {
@@ -94,13 +114,11 @@ const Cart = () => {
               </td>
             </tr>
             <tr>
-              <td colSpan="8" className="text-end mx-1 ">
+              <td colSpan="8" className="text-end  ">
                 {userInfo ? (
                   <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      handleClearCart;
-                    }}
+                    className="btn btn-primary mx-1"
+                    onClick={handleCheckout}
                   >
                     Checkout
                   </button>

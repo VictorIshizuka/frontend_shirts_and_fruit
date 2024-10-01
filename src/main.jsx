@@ -24,6 +24,9 @@ import ListProducts from "./common/screens/Admin/List/products.jsx";
 import FormPage from "./common/screens/Admin/Form/page.jsx";
 import FormProduct from "./common/screens/Admin/Form/products.jsx";
 import Cart from "./common/screens/Cart/index.jsx";
+import OrderPlaced from "./common/screens/OrderPlaced/index.jsx";
+import PrivateROuter from "./common/components/PrivateRouter/index.jsx";
+import Profile from "./common/screens/Profile/index.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -38,6 +41,7 @@ createRoot(document.getElementById("root")).render(
             <Route index path="/login" element={<Login />} />
             <Route index path="/register" element={<Register />} />
             <Route index path="/cart" element={<Cart />} />
+            <Route path="/order-placed" element={<OrderPlaced />} />
 
             <Route path="" element={<AdminRouter />}>
               <Route index path="/admin/pages?" element={<ListPages />} />
@@ -82,6 +86,9 @@ createRoot(document.getElementById("root")).render(
                 element={<ListProducts />}
               />
               <Route index path="/admin/pages/form" element={<FormPage />} />
+            </Route>
+            <Route path="" element={<PrivateROuter />}>
+              <Route index path="/profile" element={<Profile />} />
             </Route>
           </Route>
         </Routes>

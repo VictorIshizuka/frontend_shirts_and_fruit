@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGetPageQuery } from "../../slices/pagesApiSlice";
 import Loader from "../../components/Loader";
+import HTMLReactParser from "html-react-parser";
 
 export const Page = () => {
   const { slug } = useParams();
@@ -15,5 +16,5 @@ export const Page = () => {
     return <p>{error.data.message}</p>;
   }
 
-  return <div>{page?.body}</div>;
+  return <div>{HTMLReactParser(page?.body)}</div>;
 };

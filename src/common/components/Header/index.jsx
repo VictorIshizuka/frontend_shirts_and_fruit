@@ -74,6 +74,13 @@ const Header = () => {
                 </Link>
               )}
             </li>
+            <li className="nav-item mx-2">
+              {userInfo !== null && (
+                <Link className="btn btn-info" to="/profile">
+                  My profile
+                </Link>
+              )}
+            </li>
             <li className="nav-item">
               {userInfo !== null && (
                 <Link className="btn btn-danger" onClick={handleLogout}>
