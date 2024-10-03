@@ -3,7 +3,13 @@ import { apiSlice } from "./apiSlice";
 const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query({
-      query: category => `/api/products/categories/${category}`,
+      query: ({ page, slug }) => {
+        console.log(page, slug);
+        return {
+          url: `/api/products/category/${slug}`,
+          params: { page },
+        };
+      },
       providesTags: ["Product"],
     }),
     getProduct: builder.query({
