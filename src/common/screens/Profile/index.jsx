@@ -4,7 +4,6 @@ import CartItem from "../CartItem";
 
 const Profile = () => {
   const { data: orders, error, isLoading } = useGetUserOrdersQuery();
-  console.log(orders);
   if (isLoading) return <Loader />;
   if (error) return <div>{error.data.message}</div>;
 

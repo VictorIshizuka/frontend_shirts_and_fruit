@@ -58,7 +58,6 @@ const FormPage = () => {
           navigate("/admin/pages");
           toast.success(res.message);
         } else if (Object.keys(formData).length) {
-          //console.log(formData);
           const res = await updatePage({
             id: page._id,
             body: formData,

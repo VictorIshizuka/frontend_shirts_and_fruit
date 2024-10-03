@@ -4,7 +4,7 @@ import authSlice, { logout } from "../slices/authSlice";
 import cartSlice from "../slices/cartSlice";
 
 const loggingMiddleware = store => next => action => {
-  if (action.type.includes("api/") && action.payload) {
+  if (action.type.includes("/api") && action.payload) {
     if (action.payload.status === 401) {
       store.dispatch(logout());
     }

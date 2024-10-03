@@ -32,7 +32,6 @@ const Cart = () => {
 
   async function handleCheckout() {
     try {
-      console.log(cartItems);
       await addOrder({
         items: cartItems,
         user: userInfo._id,

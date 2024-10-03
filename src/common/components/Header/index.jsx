@@ -75,7 +75,7 @@ const Header = () => {
               )}
             </li>
             <li className="nav-item mx-2">
-              {userInfo !== null && (
+              {userInfo !== null && !pathname.includes("/profile") && (
                 <Link className="btn btn-info" to="/profile">
                   My profile
                 </Link>

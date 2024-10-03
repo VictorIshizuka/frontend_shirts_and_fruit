@@ -38,7 +38,6 @@ const MultipleImageLoad = ({ id }) => {
         toUpload.append("images", image);
       });
       toUpload.append("id", id);
-      console.log(toUpload.get("images"), toUpload.get("id"));
       await uploadMultipleImages(toUpload);
       toast.success("Images uploaded successfully");
     } catch (error) {

@@ -1,3 +1,5 @@
+import UserRating from "../../components/UserRating";
+
 const CartItem = ({ item }) => {
   return (
     <div className="col-6">
@@ -12,6 +14,7 @@ const CartItem = ({ item }) => {
           />
           <p className="card-text">Quantity: {item.quantity}</p>
           <p className="card-text">Price: ${item.price}</p>
+          <UserRating productId={item._id} />
         </div>
       </div>
     </div>
