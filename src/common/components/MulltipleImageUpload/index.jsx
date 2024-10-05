@@ -38,6 +38,7 @@ const MultipleImageLoad = ({ id }) => {
         toUpload.append("images", image);
       });
       toUpload.append("id", id);
+      console.log(toUpload.get("id"), toUpload.get("images"));
       await uploadMultipleImages(toUpload);
       toast.success("Images uploaded successfully");
     } catch (error) {
@@ -46,6 +47,7 @@ const MultipleImageLoad = ({ id }) => {
     }
   }
   async function handleDelete(image) {
+    console.log(id, image);
     try {
       await deleteImage({ id, image });
       toast.success("Image deleted successfully");
@@ -73,13 +75,13 @@ const MultipleImageLoad = ({ id }) => {
         {images?.map(image => (
           <div key={image}>
             <img
-              className="img-fluid"
-              src={`gallery/${id}/${image}`}
+              //className="img-fluid"
+              src={`/gallery/${id}/${image}`}
               alt={image}
               style={{ width: "100px", margin: "10px" }}
             />
             <button
-              className="btn btn-danger"
+              className="btn btn-danger btn-sm"
               onClick={() => handleDelete(image)}
             >
               Delete

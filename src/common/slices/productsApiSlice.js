@@ -3,13 +3,16 @@ import { apiSlice } from "./apiSlice";
 const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query({
-      query: ({ page, slug }) => {
-        console.log(page, slug);
-        return {
-          url: `/api/products/category/${slug}`,
-          params: { page },
-        };
-      },
+      query: ({ page, slug }) => ({
+        url: `/api/products/category/${slug}`,
+        params: { page },
+      }),
+      providesTags: ["Product"],
+    }),
+    getAllProducts: builder.query({
+      query: () => ({
+        url: `/api/products`,
+      }),
       providesTags: ["Product"],
     }),
     getProduct: builder.query({
@@ -33,7 +36,7 @@ const productsApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
     deleteProduct: builder.mutation({
-      query: id => ({ url: `/api/products/${id}`, method: "POST" }),
+      query: id => ({ url: `/api/products/${id}`, method: "DELETE" }),
       invalidatesTags: ["Product"],
     }),
     uploadMultipleImages: builder.mutation({
@@ -51,10 +54,10 @@ const productsApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Product"],
     }),
     deleteProductImage: builder.mutation({
-      query: data => ({
+      query: ({ id, image }) => ({
         url: `/api/products/deleteimage`,
         method: "POST",
-        body: data,
+        body: { id, image },
       }),
       invalidatesTags: ["Product"],
     }),
@@ -70,4 +73,5 @@ export const {
   useUploadMultipleImagesMutation,
   useGetProductImagesQuery,
   useDeleteProductImageMutation,
+  useGetAllProductsQuery,
 } = productsApiSlice;

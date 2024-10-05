@@ -64,7 +64,7 @@ const ListPages = () => {
   }
 
   if (error) {
-    return <p>{error.data.message}</p>;
+    return <p>{error.data?.message}</p>;
   }
   const header = ["ID", "Name", "Actions"];
   return (
@@ -113,6 +113,7 @@ const ListPages = () => {
                     Edit
                   </button>
                   <button
+                    disabled={item.slug === "home"}
                     className="btn btn-danger"
                     onClick={() => {
                       onDeletePage(item._id);

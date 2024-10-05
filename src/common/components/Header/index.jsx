@@ -45,7 +45,7 @@ const Header = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             {error ? (
-              <p>{error.data.message}</p>
+              <p>{error.data?.message}</p>
             ) : (
               pages?.map((page, index) => (
                 <li

@@ -2,17 +2,15 @@ import { toast } from "react-toastify";
 
 import {
   useDeleteProductMutation,
-  useGetProductsQuery,
+  useGetAllProductsQuery,
 } from "../../../slices/productsApiSlice";
 import Loader from "../../../components/Loader";
 import { useNavigate } from "react-router-dom";
-//import { useGetCategoriesQuery } from "../../../slices/categoriesApiSlice";
 
 const ListProducts = () => {
   const navigate = useNavigate();
   const [deleteProduct] = useDeleteProductMutation();
-  const { data: products, isLoading, error } = useGetProductsQuery("all");
-  //  const { data: categoryItem } = useGetCategoriesQuery();
+  const { data, isLoading, error } = useGetAllProductsQuery();
 
   async function onDeleteProduct(id) {
     if (window.confirm("Are you sure?")) {
@@ -30,7 +28,7 @@ const ListProducts = () => {
   }
 
   if (error) {
-    return <p>{error.data.message}</p>;
+    return <p>{error.data?.message}</p>;
   }
 
   const header = ["ID", "Name", "Price", "Category", "Image", "Actions"];
@@ -59,7 +57,7 @@ const ListProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {products?.map((item, index) => (
+            {data.map((item, index) => (
               <tr key={index}>
                 <td className="align-middle">{item._id}</td>
                 <td className="align-middle">{item.name}</td>

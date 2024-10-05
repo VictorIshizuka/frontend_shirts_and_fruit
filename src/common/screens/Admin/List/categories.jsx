@@ -6,7 +6,7 @@ const ListCategories = () => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
 
   if (error) {
-    return <p>{error.data.message}</p>;
+    return <p>{error.data?.message}</p>;
   }
   const headers = ["ID", "Name", "Actions"];
   return (

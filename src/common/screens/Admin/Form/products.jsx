@@ -78,7 +78,7 @@ const FormProduct = () => {
       errors.name = "Name must be at least 4 characters";
     }
     if (!formData.category.trim()) {
-      errors.name = "Category is required";
+      errors.category = "Category is required";
     }
     const priceRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
     if (!priceRegex.test(formData.price.toString())) {
@@ -162,7 +162,7 @@ const FormProduct = () => {
   }
 
   if (error) {
-    <p>{error.data.message}</p>;
+    return <p>{error.data?.message}</p>;
   }
 
   return (
